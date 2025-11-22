@@ -2,10 +2,12 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.const import CONF_ID
 
-from .. import (
+from ../i2s_tdm_audio import (
     I2STDMAudioIn,
     i2s_tdm_audio_ns
 )
+
+DEPENDENCIES = ["i2s_tdm_audio"]
 
 I2STDMAudioMicrophone = i2s_tdm_audio_ns.class_(
     "I2STDMAudioMicrophone", I2STDMAudioIn, microphone.Microphone, cg.Component
