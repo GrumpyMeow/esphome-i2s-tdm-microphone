@@ -7,6 +7,8 @@ from .. import (
     i2s_tdm_audio_ns
 )
 
+DEPENDENCIES = ["i2s_tdm_audio"]
+
 I2STDMAudioMicrophone = i2s_tdm_audio_ns.class_(
     "I2STDMAudioMicrophone", I2STDMAudioIn, microphone.Microphone, cg.Component
 )
