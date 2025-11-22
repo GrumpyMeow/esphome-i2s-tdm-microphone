@@ -6,6 +6,9 @@ from esphome.const import CONF_ID
 DEPENDENCIES = ["esp32"]
 MULTI_CONF = True
 
+CONF_I2S_TDM_AUDIO = "i2s_tdm_audio"
+CONF_I2S_TDM_AUDIO_ID = "i2s_tdm_audio_id"
+
 CONF_I2S_BCLK_PIN = "i2s_bclk_pin"
 CONF_I2S_LRCLK_PIN = "i2s_lrclk_pin"
 
@@ -18,7 +21,8 @@ I2STDMAudioIn = i2s_tdm_audio_ns.class_("I2STDMAudioIn", I2STDMAudioBase)
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(): cv.declare_id(I2STDMAudioComponent),
+        cv.GenerateID(): cv.declare_id(class_),
+        cv.GenerateID(CONF_I2S_TDM_AUDIO_ID): cv.use_id(I2STDMAudioComponent),
         cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
         cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
     }
