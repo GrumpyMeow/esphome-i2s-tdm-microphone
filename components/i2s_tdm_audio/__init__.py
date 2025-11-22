@@ -3,6 +3,9 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.const import CONF_ID
 
+DEPENDENCIES = ["esp32"]
+MULTI_CONF = True
+
 CONF_I2S_BCLK_PIN = "i2s_bclk_pin"
 CONF_I2S_LRCLK_PIN = "i2s_lrclk_pin"
 
