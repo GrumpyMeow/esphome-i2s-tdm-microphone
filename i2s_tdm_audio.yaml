@@ -1,0 +1,7 @@
+i2s_tdm_audio:
+  i2s_lrclk_pin: GPIOXX
+  i2s_bclk_pin: GPIOXX
+
+microphone:
+  - platform: i2s_tdm_audio
+    i2s_din_pin: GPIOXX
