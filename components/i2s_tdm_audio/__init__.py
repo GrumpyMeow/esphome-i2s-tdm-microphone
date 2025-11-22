@@ -21,7 +21,6 @@ I2STDMAudioIn = i2s_tdm_audio_ns.class_("I2STDMAudioIn", I2STDMAudioBase)
 
 CONFIG_SCHEMA = cv.Schema(
     {
-        cv.GenerateID(): cv.declare_id(class_),
         cv.GenerateID(CONF_I2S_TDM_AUDIO_ID): cv.use_id(I2STDMAudioComponent),
         cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
         cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
