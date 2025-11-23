@@ -28,7 +28,6 @@ class I2STDMAudioMicrophone : public I2STDMAudioIn, public microphone::Microphon
 
   void set_din_pin(int8_t pin) { this->din_pin_ = (gpio_num_t) pin; }
 
-  void set_pdm(bool pdm) { this->pdm_ = pdm; }
 
  protected:
   /// @brief Starts the I2S driver. Updates the ``audio_stream_info_`` member variable with the current setttings.
@@ -57,8 +56,6 @@ class I2STDMAudioMicrophone : public I2STDMAudioIn, public microphone::Microphon
 
   gpio_num_t din_pin_{I2S_GPIO_UNUSED};
   i2s_chan_handle_t rx_handle_;
-
-  bool pdm_{false};
 
   bool correct_dc_offset_;
   bool locked_driver_{false};
