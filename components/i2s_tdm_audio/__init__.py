@@ -42,22 +42,26 @@ CONF_RIGHT = "right"
 CONF_STEREO = "stereo"
 CONF_BOTH = "both"
 
-CONF_SLOT0 = "slot0"
-CONF_SLOT1 = "slot1"
-CONF_SLOT2 = "slot2"
-CONF_SLOT3 = "slot3"
-CONF_SLOT4 = "slot4"
-CONF_SLOT5 = "slot5"
-CONF_SLOT6 = "slot6"
-CONF_SLOT7 = "slot7"
-CONF_SLOT8 = "slot8"
-CONF_SLOT9 = "slot9"
-CONF_SLOT10 = "slot10"
-CONF_SLOT11 = "slot11"
-CONF_SLOT12 = "slot12"
-CONF_SLOT13 = "slot13"
-CONF_SLOT14 = "slot14"
-CONF_SLOT15 = "slot15"
+CONF_SLOTS = "slots"
+
+I2S_TDM_SLOT_MASK = {
+    "SLOT0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
+    "SLOT1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
+    "SLOT2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
+    "SLOT3": i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
+    "SLOT4": i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
+    "SLOT5": i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
+    "SLOT6": i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
+    "SLOT7": i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
+    "SLOT8": i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
+    "SLOT9": i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
+    "SLOT10": i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
+    "SLOT11": i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
+    "SLOT12": i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
+    "SLOT13": i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
+    "SLOT14": i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
+    "SLOT15": i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,
+}
 
 i2s_tdm_audio_ns = cg.esphome_ns.namespace("i2s_tdm_audio")
 I2STDMAudioComponent = i2s_tdm_audio_ns.class_("I2STDMAudioComponent", cg.Component)
@@ -235,6 +239,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
+            cv.Required(CONF_SLOTS): cv.list(cv.one_of(*I2S_TDM_SLOT_MASK.keys())),
         },
     ),
 )
@@ -268,3 +273,7 @@ async def to_code(config):
         cg.add(var.set_bclk_pin(config[CONF_I2S_BCLK_PIN]))
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
+
+    slot_mask_value = 0
+    for slot in config[CONF_SLOTS]:
+       slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
