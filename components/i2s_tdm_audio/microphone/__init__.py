@@ -38,8 +38,6 @@ INTERNAL_ADC_VARIANTS = [esp32.const.VARIANT_ESP32]
 
 def _validate_esp32_variant(config):
     variant = esp32.get_esp32_variant()
-    
-    raise NotImplementedError
 
 
 def _validate_channel(config):
