@@ -86,10 +86,8 @@ BASE_SCHEMA = microphone.MICROPHONE_SCHEMA.extend(
 CONFIG_SCHEMA = cv.All(
     cv.typed_schema(
         {
-            {
-                cv.Required(CONF_I2S_DIN_PIN): pins.internal_gpio_input_pin_number,
-            }
-        },
+            cv.Required(CONF_I2S_DIN_PIN): pins.internal_gpio_input_pin_number,
+        }
     ),
     _validate_esp32_variant,
     _validate_channel,
