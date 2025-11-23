@@ -113,6 +113,5 @@ async def to_code(config):
     await microphone.register_microphone(var, config)
 
     cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
-    cg.add(var.set_pdm(config[CONF_PDM]))
 
     cg.add(var.set_correct_dc_offset(config[CONF_CORRECT_DC_OFFSET]))
