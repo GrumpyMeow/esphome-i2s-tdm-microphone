@@ -124,20 +124,20 @@ bool I2STDMAudioMicrophone::start_driver_() {
       .clk_src = clk_src,
       .mclk_multiple = this->mclk_multiple_,
   };
-  i2s_tdm_slot_config_t std_slot_cfg =
-      I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_);
-  std_slot_cfg.slot_bit_width = this->slot_bit_width_;
-  std_slot_cfg.slot_mask = this->tdm_slot_mask_;
+  i2s_tdm_slot_config_t tdm_slot_cfg =
+      I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->slot_mask_);
+  tdm_slot_cfg.slot_bit_width = this->slot_bit_width_;
+  tdm_slot_cfg.slot_mask = this->tdm_slot_mask_;
 
   pin_config.din = this->din_pin_;
 
-  i2s_tdm_config_t std_cfg = {
+  i2s_tdm_config_t tdm_cfg = {
       .clk_cfg = clk_cfg,
-      .slot_cfg = std_slot_cfg,
+      .slot_cfg = tdm_slot_cfg,
       .gpio_cfg = pin_config,
   };
   /* Initialize the channel */
-  err = i2s_channel_init_tdm_mode(this->rx_handle_, &std_cfg);
+  err = i2s_channel_init_tdm_mode(this->rx_handle_, &tdm_cfg);
   
   if (err != ESP_OK) {
     ESP_LOGE(TAG, "Error initializing channel: %s", esp_err_to_name(err));
