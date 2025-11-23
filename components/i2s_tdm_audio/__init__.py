@@ -74,6 +74,10 @@ I2S_PORTS = {
     VARIANT_ESP32P4: 3,
 }
 
+I2S_TDM_SUPPORT = {
+    VARIANT_ESP32P4
+}
+
 i2s_channel_fmt_t = cg.global_ns.enum("i2s_channel_fmt_t")
 I2S_CHANNELS = {
     CONF_MONO: i2s_channel_fmt_t.I2S_CHANNEL_FMT_ALL_LEFT,  # left data to both channels
@@ -207,6 +211,8 @@ CONFIG_SCHEMA = cv.All(
 def _final_validate(_):
     i2s_tdm_audio_configs = fv.full_config.get()[CONF_I2S_TDM_AUDIO]
     variant = get_esp32_variant()
+    if variant not in I2S_TDM_SUPPORT:
+        raise cv.Invalid(f"Unsupported variant {variant}")
     if variant not in I2S_PORTS:
         raise cv.Invalid(f"Unsupported variant {variant}")
     if len(i2s_tdm_audio_configs) > I2S_PORTS[variant]:
