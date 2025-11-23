@@ -88,11 +88,11 @@ I2S_SLOT_MODE = {
     CONF_STEREO: i2s_slot_mode_t.I2S_SLOT_MODE_STEREO,
 }
 
-i2s_std_slot_mask_t = cg.global_ns.enum("i2s_std_slot_mask_t")
-I2S_STD_SLOT_MASK = {
-    CONF_LEFT: i2s_std_slot_mask_t.I2S_STD_SLOT_LEFT,
-    CONF_RIGHT: i2s_std_slot_mask_t.I2S_STD_SLOT_RIGHT,
-    CONF_BOTH: i2s_std_slot_mask_t.I2S_STD_SLOT_BOTH,
+i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
+I2S_TDM_SLOT_MASK = {
+    CONF_LEFT: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_LEFT,
+    CONF_RIGHT: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_RIGHT,
+    CONF_BOTH: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_BOTH,
 }
 
 i2s_bits_per_sample_t = cg.global_ns.enum("i2s_bits_per_sample_t")
@@ -184,7 +184,7 @@ async def register_i2s_tdm_audio_component(var, config):
     if slot_mask not in [CONF_LEFT, CONF_RIGHT]:
         slot_mask = CONF_BOTH
     cg.add(var.set_slot_mode(I2S_SLOT_MODE[slot_mode]))
-    cg.add(var.set_std_slot_mask(I2S_STD_SLOT_MASK[slot_mask]))
+    cg.add(var.set_tdm_slot_mask(I2S_TDM_SLOT_MASK[slot_mask]))
     cg.add(var.set_slot_bit_width(I2S_SLOT_BIT_WIDTH[config[CONF_BITS_PER_SAMPLE]]))
     
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
