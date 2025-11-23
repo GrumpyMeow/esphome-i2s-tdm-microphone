@@ -44,6 +44,7 @@ CONF_BOTH = "both"
 
 CONF_SLOTS = "slots"
 
+i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
 I2S_TDM_SLOT_MASK = {
     "SLOT0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
     "SLOT1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
@@ -111,26 +112,6 @@ i2s_slot_mode_t = cg.global_ns.enum("i2s_slot_mode_t")
 I2S_SLOT_MODE = {
     CONF_MONO: i2s_slot_mode_t.I2S_SLOT_MODE_MONO,
     CONF_STEREO: i2s_slot_mode_t.I2S_SLOT_MODE_STEREO,
-}
-
-i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-I2S_TDM_SLOT_MASK = {
-    CONF_SLOT0: i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
-    CONF_SLOT1: i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
-    CONF_SLOT2: i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
-    CONF_SLOT3: i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
-    CONF_SLOT4: i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
-    CONF_SLOT5: i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
-    CONF_SLOT6: i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
-    CONF_SLOT7: i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
-    CONF_SLOT8: i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
-    CONF_SLOT9: i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
-    CONF_SLOT10: i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
-    CONF_SLOT11: i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
-    CONF_SLOT12: i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
-    CONF_SLOT13: i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
-    CONF_SLOT14: i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
-    CONF_SLOT15: i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,    
 }
 
 i2s_bits_per_sample_t = cg.global_ns.enum("i2s_bits_per_sample_t")
