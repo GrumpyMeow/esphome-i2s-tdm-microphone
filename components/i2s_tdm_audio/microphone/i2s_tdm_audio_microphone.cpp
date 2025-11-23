@@ -4,7 +4,6 @@
 #ifdef USE_ESP32
 
 #include <driver/i2s_tdm.h>
-#include <driver/i2s_pdm.h>
 
 #include "esphome/core/hal.h"
 #include "esphome/core/log.h"
@@ -55,9 +54,8 @@ void I2STDMAudioMicrophone::dump_config() {
   ESP_LOGCONFIG(TAG,
                 "Microphone:\n"
                 "  Pin: %d\n"
-                "  PDM: %s\n"
                 "  DC offset correction: %s",
-                static_cast<int8_t>(this->din_pin_), YESNO(this->pdm_), YESNO(this->correct_dc_offset_));
+                static_cast<int8_t>(this->din_pin_), YESNO(this->correct_dc_offset_));
 }
 
 void I2STDMAudioMicrophone::configure_stream_settings_() {
@@ -82,9 +80,6 @@ void I2STDMAudioMicrophone::configure_stream_settings_() {
   }
 #endif
 
-  if (this->pdm_) {
-    bits_per_sample = 16;  // PDM mics are always 16 bits per sample
-  }
 
   this->audio_stream_info_ = audio::AudioStreamInfo(bits_per_sample, channel_count, this->sample_rate_);
 }
@@ -123,45 +118,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
   }
 #endif
   i2s_std_gpio_config_t pin_config = this->parent_->get_pin_config();
-#if SOC_I2S_SUPPORTS_PDM_RX
-  if (this->pdm_) {
-    i2s_pdm_rx_clk_config_t clk_cfg = {
-        .sample_rate_hz = this->sample_rate_,
-        .clk_src = clk_src,
-        .mclk_multiple = this->mclk_multiple_,
-        .dn_sample_mode = I2S_PDM_DSR_8S,
-    };
 
-    i2s_pdm_rx_slot_config_t slot_cfg = I2S_PDM_RX_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, this->slot_mode_);
-    switch (this->std_slot_mask_) {
-      case I2S_STD_SLOT_LEFT:
-        slot_cfg.slot_mask = I2S_PDM_SLOT_LEFT;
-        break;
-      case I2S_STD_SLOT_RIGHT:
-        slot_cfg.slot_mask = I2S_PDM_SLOT_RIGHT;
-        break;
-      case I2S_STD_SLOT_BOTH:
-        slot_cfg.slot_mask = I2S_PDM_SLOT_BOTH;
-        break;
-    }
-
-    /* Init the channel into PDM RX mode */
-    i2s_pdm_rx_config_t pdm_rx_cfg = {
-        .clk_cfg = clk_cfg,
-        .slot_cfg = slot_cfg,
-        .gpio_cfg =
-            {
-                .clk = pin_config.ws,
-                .din = this->din_pin_,
-                .invert_flags =
-                    {
-                        .clk_inv = pin_config.invert_flags.ws_inv,
-                    },
-            },
-    };
-    err = i2s_channel_init_pdm_rx_mode(this->rx_handle_, &pdm_rx_cfg);
-  } else
-  {
     i2s_std_clk_config_t clk_cfg = {
         .sample_rate_hz = this->sample_rate_,
         .clk_src = clk_src,
@@ -193,7 +150,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
     ESP_LOGE(TAG, "Enabling failed: %s", esp_err_to_name(err));
     return false;
   }
-#endif
+
 
   this->configure_stream_settings_();  // redetermine the settings in case some settings were changed after compilation
 
@@ -302,10 +259,6 @@ void I2STDMAudioMicrophone::fix_dc_offset_(std::vector<uint8_t> &data) {
    *     0.9990234375 = 1 - (pi * 2 * f / 96000)
    *     f = 14.9208Hz
    *
-   * Confirm this has effect outside human hearing on PDM 16kHz sample:
-   *     0.9990234375 = 1 - (pi * 2 * f / 16000)
-   *     f = 2.4868Hz
-   *
    */
   const uint8_t dc_filter_shift = 10;
   const size_t bytes_per_sample = this->audio_stream_info_.samples_to_bytes(1);
@@ -342,7 +295,7 @@ size_t I2STDMAudioMicrophone::read_(uint8_t *buf, size_t len, TickType_t ticks_t
   this->status_clear_warning();
 
   // For ESP32 8/16 bit standard mono mode samples need to be switched.
-  if (this->slot_mode_ == I2S_SLOT_MODE_MONO && this->slot_bit_width_ <= 16 && !this->pdm_) {
+  if (this->slot_mode_ == I2S_SLOT_MODE_MONO && this->slot_bit_width_ <= 16) {
     size_t samples_read = bytes_read / sizeof(int16_t);
     for (int i = 0; i < samples_read; i += 2) {
       int16_t tmp = buf[i];
