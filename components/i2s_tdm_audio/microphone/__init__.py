@@ -40,12 +40,6 @@ def _validate_esp32_variant(config):
     variant = esp32.get_esp32_variant()
 
 
-def _validate_channel(config):
-    if config[CONF_CHANNEL] == CONF_MONO:
-        raise cv.Invalid(f"I2S microphone does not support {CONF_MONO}.")
-    return config
-
-
 def _set_num_channels_from_config(config):
     if config[CONF_CHANNEL] in (CONF_LEFT, CONF_RIGHT):
         config[CONF_NUM_CHANNELS] = 1
@@ -87,7 +81,6 @@ CONFIG_SCHEMA = cv.All(
     },
 
     _validate_esp32_variant,
-    _validate_channel,
     _set_num_channels_from_config,
     _set_stream_limits,
     validate_mclk_divisible_by_3,
