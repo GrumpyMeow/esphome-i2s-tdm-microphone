@@ -49,19 +49,6 @@ def _set_num_channels_from_config(config):
     return config
 
 
-def _set_stream_limits(config):
-    audio.set_stream_limits(
-        min_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
-        max_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
-        min_channels=config.get(CONF_NUM_CHANNELS),
-        max_channels=config.get(CONF_NUM_CHANNELS),
-        min_sample_rate=config.get(CONF_SAMPLE_RATE),
-        max_sample_rate=config.get(CONF_SAMPLE_RATE),
-    )(config)
-
-    return config
-
-
 BASE_SCHEMA = microphone.MICROPHONE_SCHEMA.extend(
     i2s_tdm_audio_component_schema(
         I2STDMAudioMicrophone,
@@ -81,7 +68,6 @@ CONFIG_SCHEMA = cv.All(
     },
 
     _validate_esp32_variant,
-    _set_stream_limits,
     validate_mclk_divisible_by_3,
 )
 
