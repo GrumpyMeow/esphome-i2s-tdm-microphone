@@ -127,7 +127,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
   i2s_tdm_slot_config_t std_slot_cfg =
       I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_);
   std_slot_cfg.slot_bit_width = this->slot_bit_width_;
-  std_slot_cfg.slot_mask = this->std_slot_mask_;
+  std_slot_cfg.slot_mask = this->tdm_slot_mask_;
 
   pin_config.din = this->din_pin_;
 
