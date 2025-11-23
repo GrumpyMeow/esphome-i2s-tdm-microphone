@@ -37,6 +37,7 @@ INTERNAL_ADC_VARIANTS = [esp32.const.VARIANT_ESP32]
 
 def _validate_esp32_variant(config):
     variant = esp32.get_esp32_variant()
+    return config
 
 
 def _set_num_channels_from_config(config):
