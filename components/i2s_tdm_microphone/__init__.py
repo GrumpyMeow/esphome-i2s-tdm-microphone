@@ -1,4 +1,4 @@
-from esphome import pinTs
+from esphome import pins
 import esphome.codegen as cg
 from esphome.components import audio, esp32, microphone
 from esphome.components.adc import ESP32_VARIANT_ADC1_PIN_TO_CHANNEL, validate_adc_pin
