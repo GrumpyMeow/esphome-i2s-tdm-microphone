@@ -100,6 +100,7 @@ CONFIG_SCHEMA = cv.All(
 
 
 def _final_validate(config):
+    var = config
     
 
 FINAL_VALIDATE_SCHEMA = _final_validate
