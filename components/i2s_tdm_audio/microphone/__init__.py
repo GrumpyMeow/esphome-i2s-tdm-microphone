@@ -112,13 +112,7 @@ async def to_code(config):
     await register_i2s_tdm_audio_component(var, config)
     await microphone.register_microphone(var, config)
 
-    if config[CONF_ADC_TYPE] == "internal":
-        variant = esp32.get_esp32_variant()
-        pin_num = config[CONF_ADC_PIN][CONF_NUMBER]
-        channel = ESP32_VARIANT_ADC1_PIN_TO_CHANNEL[variant][pin_num]
-        cg.add(var.set_adc_channel(channel))
-    else:
-        cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
-        cg.add(var.set_pdm(config[CONF_PDM]))
+    cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
+    cg.add(var.set_pdm(config[CONF_PDM]))
 
     cg.add(var.set_correct_dc_offset(config[CONF_CORRECT_DC_OFFSET]))
