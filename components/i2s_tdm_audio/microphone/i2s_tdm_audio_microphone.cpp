@@ -125,7 +125,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
       .mclk_multiple = this->mclk_multiple_,
   };
   i2s_tdm_slot_config_t tdm_slot_cfg =
-      I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->slot_mask_);
+      I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->tdm_slot_mask_);
   tdm_slot_cfg.slot_bit_width = this->slot_bit_width_;
   tdm_slot_cfg.slot_mask = this->tdm_slot_mask_;
 
