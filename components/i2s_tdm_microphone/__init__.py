@@ -12,7 +12,7 @@ from esphome.const import (
     CONF_SAMPLE_RATE,
 )
 
-from .. import (
+from ../i2s_tdm_audio import (
     CONF_I2S_DIN_PIN,
     CONF_LEFT,
     CONF_MONO,
