@@ -42,6 +42,23 @@ CONF_RIGHT = "right"
 CONF_STEREO = "stereo"
 CONF_BOTH = "both"
 
+CONF_SLOT0 = "slot0"
+CONF_SLOT1 = "slot1"
+CONF_SLOT2 = "slot2"
+CONF_SLOT3 = "slot3"
+CONF_SLOT4 = "slot4"
+CONF_SLOT5 = "slot5"
+CONF_SLOT6 = "slot6"
+CONF_SLOT7 = "slot7"
+CONF_SLOT8 = "slot8"
+CONF_SLOT9 = "slot9"
+CONF_SLOT10 = "slot10"
+CONF_SLOT11 = "slot11"
+CONF_SLOT12 = "slot12"
+CONF_SLOT13 = "slot13"
+CONF_SLOT14 = "slot14"
+CONF_SLOT15 = "slot15"
+
 i2s_tdm_audio_ns = cg.esphome_ns.namespace("i2s_tdm_audio")
 I2STDMAudioComponent = i2s_tdm_audio_ns.class_("I2STDMAudioComponent", cg.Component)
 I2STDMAudioBase = i2s_tdm_audio_ns.class_(
@@ -94,9 +111,22 @@ I2S_SLOT_MODE = {
 
 i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
 I2S_TDM_SLOT_MASK = {
-    CONF_LEFT: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_LEFT,
-    CONF_RIGHT: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_RIGHT,
-    CONF_BOTH: i2s_tdm_slot_mask_t.I2S_TDM_SLOT_BOTH,
+    CONF_SLOT0: i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
+    CONF_SLOT1: i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
+    CONF_SLOT2: i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
+    CONF_SLOT3: i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
+    CONF_SLOT4: i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
+    CONF_SLOT5: i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
+    CONF_SLOT6: i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
+    CONF_SLOT7: i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
+    CONF_SLOT8: i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
+    CONF_SLOT9: i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
+    CONF_SLOT10: i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
+    CONF_SLOT11: i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
+    CONF_SLOT12: i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
+    CONF_SLOT13: i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
+    CONF_SLOT14: i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
+    CONF_SLOT15: i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,    
 }
 
 i2s_bits_per_sample_t = cg.global_ns.enum("i2s_bits_per_sample_t")
