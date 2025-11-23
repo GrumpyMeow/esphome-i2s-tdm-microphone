@@ -5,7 +5,7 @@
 #include "esphome/core/component.h"
 #include "esphome/core/defines.h"
 #include "esphome/core/helpers.h"
-#include <driver/i2s_std.h>
+#include <driver/i2s_tdm.h>
 
 namespace esphome {
 namespace i2s_tdm_audio {
@@ -16,7 +16,7 @@ class I2STDMAudioBase : public Parented<I2STDMAudioComponent> {
  public:
   void set_i2s_role(i2s_role_t role) { this->i2s_role_ = role; }
   void set_slot_mode(i2s_slot_mode_t slot_mode) { this->slot_mode_ = slot_mode; }
-  void set_std_slot_mask(i2s_std_slot_mask_t std_slot_mask) { this->std_slot_mask_ = std_slot_mask; }
+  void set_tdm_slot_mask(i2s_tdm_slot_mask_t tdm_slot_mask) { this->tdm_slot_mask_ = tdm_slot_mask; }
   void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
 
   void set_sample_rate(uint32_t sample_rate) { this->sample_rate_ = sample_rate; }
@@ -26,7 +26,7 @@ class I2STDMAudioBase : public Parented<I2STDMAudioComponent> {
  protected:
   i2s_role_t i2s_role_{};
   i2s_slot_mode_t slot_mode_;
-  i2s_std_slot_mask_t std_slot_mask_;
+  i2s_tdm_slot_mask_t tdm_slot_mask_;
   i2s_slot_bit_width_t slot_bit_width_;
 
   uint32_t sample_rate_;
@@ -42,7 +42,7 @@ class I2STDMAudioComponent : public Component {
  public:
   void setup() override;
 
-  i2s_std_gpio_config_t get_pin_config() const {
+  i2s_tdm_gpio_config_t get_pin_config() const {
     return {.mclk = (gpio_num_t) this->mclk_pin_,
             .bclk = (gpio_num_t) this->bclk_pin_,
             .ws = (gpio_num_t) this->lrclk_pin_,
