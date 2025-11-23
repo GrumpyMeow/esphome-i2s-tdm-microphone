@@ -117,28 +117,28 @@ bool I2STDMAudioMicrophone::start_driver_() {
     clk_src = I2S_CLK_SRC_APLL;
   }
 #endif
-  i2s_std_gpio_config_t pin_config = this->parent_->get_pin_config();
+  i2s_tdm_gpio_config_t pin_config = this->parent_->get_pin_config();
 
-    i2s_std_clk_config_t clk_cfg = {
-        .sample_rate_hz = this->sample_rate_,
-        .clk_src = clk_src,
-        .mclk_multiple = this->mclk_multiple_,
-    };
-    i2s_std_slot_config_t std_slot_cfg =
-        I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_);
-    std_slot_cfg.slot_bit_width = this->slot_bit_width_;
-    std_slot_cfg.slot_mask = this->std_slot_mask_;
+  i2s_std_clk_config_t clk_cfg = {
+      .sample_rate_hz = this->sample_rate_,
+      .clk_src = clk_src,
+      .mclk_multiple = this->mclk_multiple_,
+  };
+  i2s_std_slot_config_t std_slot_cfg =
+      I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_);
+  std_slot_cfg.slot_bit_width = this->slot_bit_width_;
+  std_slot_cfg.slot_mask = this->std_slot_mask_;
 
-    pin_config.din = this->din_pin_;
+  pin_config.din = this->din_pin_;
 
-    i2s_std_config_t std_cfg = {
-        .clk_cfg = clk_cfg,
-        .slot_cfg = std_slot_cfg,
-        .gpio_cfg = pin_config,
-    };
-    /* Initialize the channel */
-    err = i2s_channel_init_std_mode(this->rx_handle_, &std_cfg);
-  }
+  i2s_std_config_t std_cfg = {
+      .clk_cfg = clk_cfg,
+      .slot_cfg = std_slot_cfg,
+      .gpio_cfg = pin_config,
+  };
+  /* Initialize the channel */
+  err = i2s_channel_init_std_mode(this->rx_handle_, &std_cfg);
+  
   if (err != ESP_OK) {
     ESP_LOGE(TAG, "Error initializing channel: %s", esp_err_to_name(err));
     return false;
