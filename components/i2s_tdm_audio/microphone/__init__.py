@@ -1,7 +1,7 @@
 from esphome import pins
 import esphome.codegen as cg
 from esphome.components import audio, esp32, microphone
-from esphome.components.adc import ESP32_VARIANT_ADC1_PIN_TO_CHANNEL, validate_adc_pin
+from esphome.components.adc import ESP32_VARIANT_ADC1_PIN_TO_CHANNEL
 import esphome.config_validation as cv
 from esphome.const import (
     CONF_BITS_PER_SAMPLE,
@@ -21,7 +21,6 @@ from .. import (
     i2s_tdm_audio_component_schema,
     i2s_tdm_audio_ns,
     register_i2s_tdm_audio_component,
-    validate_mclk_divisible_by_3,
 )
 
 DEPENDENCIES = ["i2s_tdm_audio"]
@@ -68,7 +67,6 @@ CONFIG_SCHEMA = cv.All(
     },
 
     _validate_esp32_variant,
-    validate_mclk_divisible_by_3,
 )
 
 
