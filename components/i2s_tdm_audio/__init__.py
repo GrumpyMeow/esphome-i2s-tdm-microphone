@@ -17,7 +17,6 @@ from esphome.core import CORE
 from esphome.cpp_generator import MockObjClass
 import esphome.final_validate as fv
 
-CODEOWNERS = ["@jesserockz"]
 DEPENDENCIES = ["esp32"]
 MULTI_CONF = True
 
