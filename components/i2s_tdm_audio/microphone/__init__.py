@@ -27,7 +27,6 @@ from .. import (
 DEPENDENCIES = ["i2s_tdm_audio"]
 
 CONF_ADC_PIN = "adc_pin"
-CONF_ADC_TYPE = "adc_type"
 CONF_CORRECT_DC_OFFSET = "correct_dc_offset"
 CONF_PDM = "pdm"
 
@@ -41,15 +40,8 @@ PDM_VARIANTS = [esp32.const.VARIANT_ESP32, esp32.const.VARIANT_ESP32S3]
 
 def _validate_esp32_variant(config):
     variant = esp32.get_esp32_variant()
-    if config[CONF_ADC_TYPE] == "external":
-        if config[CONF_PDM] and variant not in PDM_VARIANTS:
-            raise cv.Invalid(f"{variant} does not support PDM")
-        return config
-    if config[CONF_ADC_TYPE] == "internal":
-        if variant not in INTERNAL_ADC_VARIANTS:
-            raise cv.Invalid(f"{variant} does not have an internal ADC")
-        return config
-    raise NotImplementedError
+    
+    return config
 
 
 def _validate_channel(config):
@@ -94,21 +86,11 @@ BASE_SCHEMA = microphone.MICROPHONE_SCHEMA.extend(
 ).extend(cv.COMPONENT_SCHEMA)
 
 CONFIG_SCHEMA = cv.All(
-    cv.typed_schema(
+    BASE_SCHEMA.extend(
         {
-            "internal": BASE_SCHEMA.extend(
-                {
-                    cv.Required(CONF_ADC_PIN): validate_adc_pin,
-                }
-            ),
-            "external": BASE_SCHEMA.extend(
-                {
-                    cv.Required(CONF_I2S_DIN_PIN): pins.internal_gpio_input_pin_number,
-                    cv.Optional(CONF_PDM, default=False): cv.boolean,
-                }
-            ),
-        },
-        key=CONF_ADC_TYPE,
+            cv.Required(CONF_I2S_DIN_PIN): pins.internal_gpio_input_pin_number,
+            cv.Optional(CONF_PDM, default=False): cv.boolean,
+        }
     ),
     _validate_esp32_variant,
     _validate_channel,
