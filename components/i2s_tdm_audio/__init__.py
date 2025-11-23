@@ -220,7 +220,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Required(CONF_SLOTS): cv.list(cv.one_of(*I2S_TDM_SLOT_MASK.keys())),
+            cv.Required(CONF_SLOTS): cv.ensure_list(cv.one_of(*I2S_TDM_SLOT_MASK.keys())),
         },
     ),
 )
