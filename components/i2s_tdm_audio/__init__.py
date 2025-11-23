@@ -46,22 +46,22 @@ CONF_SLOTS = "slots"
 
 i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
 I2S_TDM_SLOT_MASK = {
-    "SLOT0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
-    "SLOT1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
-    "SLOT2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
-    "SLOT3": i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
-    "SLOT4": i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
-    "SLOT5": i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
-    "SLOT6": i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
-    "SLOT7": i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
-    "SLOT8": i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
-    "SLOT9": i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
-    "SLOT10": i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
-    "SLOT11": i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
-    "SLOT12": i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
-    "SLOT13": i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
-    "SLOT14": i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
-    "SLOT15": i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,
+    "slot0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
+    "slot1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
+    "slot2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
+    "slot3": i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
+    "slot4": i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
+    "slot5": i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
+    "slot6": i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
+    "slot7": i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
+    "slot8": i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
+    "slot9": i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
+    "slot10": i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
+    "slot11": i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
+    "slot12": i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
+    "slot13": i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
+    "slot14": i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
+    "slot15": i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,
 }
 
 i2s_tdm_audio_ns = cg.esphome_ns.namespace("i2s_tdm_audio")
