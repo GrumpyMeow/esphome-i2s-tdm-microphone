@@ -44,14 +44,6 @@ CONF_BOTH = "both"
 
 CONF_SLOTS = "slots"
 
-i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-slot_mask_schema = cv.multi_select({
-    "slot0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
-    "slot1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
-    "slot2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
-})
-
-
 I2S_TDM_SLOT_MASK = {
     "slot0": "I2S_TDM_SLOT0",
     "slot1": "I2S_TDM_SLOT1",
@@ -227,8 +219,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            # cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
-            cv.Required(CONF_SLOTS): slot_mask_schema,
+            cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
         },
     ),
 )
