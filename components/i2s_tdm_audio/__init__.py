@@ -45,22 +45,7 @@ CONF_BOTH = "both"
 CONF_SLOTS = "slots"
 
 I2S_TDM_SLOT_MASK = {
-    "slot0": "I2S_TDM_SLOT0",
-    "slot1": "I2S_TDM_SLOT1",
-    "slot2": "I2S_TDM_SLOT2",
-    "slot3": "I2S_TDM_SLOT3",
-    "slot4": "I2S_TDM_SLOT4",
-    "slot5": "I2S_TDM_SLOT5",
-    "slot6": "I2S_TDM_SLOT6",
-    "slot7": "I2S_TDM_SLOT7",
-    "slot8": "I2S_TDM_SLOT8",
-    "slot9": "I2S_TDM_SLOT9",
-    "slot10": "I2S_TDM_SLOT10",
-    "slot11": "I2S_TDM_SLOT11",
-    "slot12": "I2S_TDM_SLOT12",
-    "slot13": "I2S_TDM_SLOT13",
-    "slot14": "I2S_TDM_SLOT14",
-    "slot15": "I2S_TDM_SLOT15",
+    0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
 }
 
 i2s_tdm_audio_ns = cg.esphome_ns.namespace("i2s_tdm_audio")
@@ -219,7 +204,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
+            cv.Required(CONF_SLOTS): cv.ensure_list(I2S_TDM_SLOT_MASK),
         },
     ),
 )
@@ -254,10 +239,10 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
-    slot_mask_value = 0
+    slot_mask_value = cg.new_Pvariable()
     for slot in config[CONF_SLOTS]:
-        slot_mask_value |= config[CONF_SLOTS][slot]
-    cg.add(var.set_tdm_slot_mask(slot_mask_value))
+        cg.add(slot_mask_value.push_back(I2S_TDM_SLOT_MASK[slot]))
+    cg.add(var.set_tdm_slot_mask(slot_mask_value))    
     
     #i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
     # Todo: Unable to get this to work
