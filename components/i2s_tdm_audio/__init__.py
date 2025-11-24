@@ -258,4 +258,4 @@ async def to_code(config):
     slot_mask_value = 0
     for slot in config[CONF_SLOTS]:
        slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
-    cg.add(var.set_slot_mask(slot_mask_value)
+    cg.add(var.set_tdm_slot_mask(slot_mask_value)
