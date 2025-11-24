@@ -260,5 +260,5 @@ async def to_code(config):
     #slot_mask_value = i2s_tdm_slot_mask_t()
     #for slot in config[CONF_SLOTS]:
     #   slot_mask_value = i2s_tdm_slot_mask_t(slot_mask_value | I2S_TDM_SLOT_MASK[slot])
-    slot_mask_value = (((i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT2) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT3)
-    cg.add(var.set_tdm_slot_mask(slot_mask_value))
+    #slot_mask_value = (((i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT2) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT3)
+    #cg.add(var.set_tdm_slot_mask(slot_mask_value))
