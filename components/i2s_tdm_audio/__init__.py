@@ -252,8 +252,8 @@ async def to_code(config):
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
     i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-    slot_mask_value = i2s_tdm_slot_mask_t(0)
+    slot_mask_value = 0
     for slot in config[CONF_SLOTS]:
-       slot_mask_value = i2s_tdm_slot_mask_t(slot_mask_value.value | I2S_TDM_SLOT_MASK[slot].value)
+       slot_mask_value |= I2S_TDM_SLOT_MASK[slot].value
 
-    cg.add(var.set_tdm_slot_mask(slot_mask_value))
+    cg.add(var.set_tdm_slot_mask(i2s_tdm_slot_mask_t(slot_mask_value)))
