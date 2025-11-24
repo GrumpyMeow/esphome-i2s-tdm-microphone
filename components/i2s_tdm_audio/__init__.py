@@ -200,13 +200,14 @@ async def register_i2s_tdm_audio_component(var, config):
     if slot_mode != CONF_STEREO:
         slot_mode = CONF_MONO
         
-    slot_mask = config[CONF_CHANNEL]
-    if slot_mask not in [CONF_LEFT, CONF_RIGHT]:
-        slot_mask = CONF_BOTH
-        
+       
     cg.add(var.set_slot_mode(I2S_SLOT_MODE[slot_mode]))
-    # cg.add(var.set_tdm_slot_mask(I2S_TDM_SLOT_MASK[slot_mask]))
     cg.add(var.set_slot_bit_width(I2S_SLOT_BIT_WIDTH[config[CONF_BITS_PER_SAMPLE]]))
+
+    slot_mask_value = 0
+    for slot in config[CONF_SLOTS]:
+       slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
+    cg.add(var.set_tdm_slot_mask(slot_mask_value)
     
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
@@ -255,7 +256,7 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
-    slot_mask_value = 0
-    for slot in config[CONF_SLOTS]:
-       slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
-    cg.add(var.set_tdm_slot_mask(slot_mask_value)
+    # slot_mask_value = 0
+    # for slot in config[CONF_SLOTS]:
+    #    slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
+    # cg.add(var.set_tdm_slot_mask(slot_mask_value)
