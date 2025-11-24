@@ -58,6 +58,7 @@ class I2STDMAudioComponent : public Component {
   void set_mclk_pin(int pin) { this->mclk_pin_ = pin; }
   void set_bclk_pin(int pin) { this->bclk_pin_ = pin; }
   void set_lrclk_pin(int pin) { this->lrclk_pin_ = pin; }
+  void set_slot_bit_width(i2s_tdm_slot_mask_t tdm_slot_mask) { this->tdm_slot_mask_ = tdm_slot_mask; }
 
   void lock() { this->lock_.lock(); }
   bool try_lock() { return this->lock_.try_lock(); }
@@ -74,6 +75,7 @@ class I2STDMAudioComponent : public Component {
   int bclk_pin_{I2S_GPIO_UNUSED};
 
   int lrclk_pin_;
+  i2s_tdm_slot_mask_t tdm_slot_mask_;
   i2s_port_t port_{};
 };
 
