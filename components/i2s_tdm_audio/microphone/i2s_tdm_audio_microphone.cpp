@@ -105,6 +105,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
       .auto_clear = false,
   };
   /* Allocate a new RX channel and get the handle of this channel */
+  ESP_LOGD(TAG, "Allocating a new RX channel");
   err = i2s_new_channel(&chan_cfg, NULL, &this->rx_handle_);
   if (err != ESP_OK) {
     ESP_LOGE(TAG, "Error creating channel: %s", esp_err_to_name(err));
