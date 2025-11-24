@@ -23,6 +23,7 @@ class I2STDMAudioBase : public Parented<I2STDMAudioComponent> {
           static_cast<uint32_t>(tdm_slot_mask) | (1 << slot)
       );
    }
+   ESP_LOGD(TAG, "TDM1 SLOT MASK: 0x%X", static_cast<unsigned int>(tdm_slot_mask));
    this->tdm_slot_mask_ = tdm_slot_mask;
   }
   void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
@@ -73,6 +74,7 @@ class I2STDMAudioComponent : public Component {
           static_cast<uint32_t>(tdm_slot_mask) | (1 << slot)
       );
    }
+   ESP_LOGD(TAG, "TDM2 SLOT MASK: 0x%X", static_cast<unsigned int>(tdm_slot_mask));
    this->tdm_slot_mask_ = tdm_slot_mask;
   }
 
