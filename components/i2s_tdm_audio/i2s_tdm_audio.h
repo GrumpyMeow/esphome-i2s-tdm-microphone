@@ -16,7 +16,15 @@ class I2STDMAudioBase : public Parented<I2STDMAudioComponent> {
  public:
   void set_i2s_role(i2s_role_t role) { this->i2s_role_ = role; }
   void set_slot_mode(i2s_slot_mode_t slot_mode) { this->slot_mode_ = slot_mode; }
-  void set_tdm_slot_mask(i2s_tdm_slot_mask_t tdm_slot_mask) { this->tdm_slot_mask_ = tdm_slot_mask; }
+  void set_tdm_slot_mask(std::array<uint8_t, 8> slots) { 
+   i2s_tdm_slot_mask_t tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(0);
+   for (auto slot : slots) {
+      tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(
+          static_cast<uint32_t>(tdm_slot_mask) | (1 << slot)
+      );
+   }
+   this->tdm_slot_mask_ = tdm_slot_mask;
+  }
   void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
 
   void set_sample_rate(uint32_t sample_rate) { this->sample_rate_ = sample_rate; }
