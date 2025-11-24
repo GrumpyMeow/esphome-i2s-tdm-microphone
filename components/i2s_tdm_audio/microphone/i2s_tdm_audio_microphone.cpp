@@ -138,6 +138,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
       .gpio_cfg = pin_config,
   };
   /* Initialize the channel */
+  ESP_LOGD(TAG, "Initialize the RX channel");
   err = i2s_channel_init_tdm_mode(this->rx_handle_, &tdm_cfg);
   
   if (err != ESP_OK) {
@@ -146,6 +147,7 @@ bool I2STDMAudioMicrophone::start_driver_() {
   }
 
   /* Before reading data, start the RX channel first */
+  ESP_LOGD(TAG, "Start the RX channel");
   i2s_channel_enable(this->rx_handle_);
   if (err != ESP_OK) {
     ESP_LOGE(TAG, "Enabling failed: %s", esp_err_to_name(err));
