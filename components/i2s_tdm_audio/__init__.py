@@ -207,7 +207,7 @@ async def register_i2s_tdm_audio_component(var, config):
     slot_mask_value = 0
     for slot in config[CONF_SLOTS]:
        slot_mask_value |= I2S_TDM_SLOT_MASK[slot]
-    cg.add(var.set_tdm_slot_mask(slot_mask_value)
+    cg.add(var.set_tdm_slot_mask(slot_mask_value))
     
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
