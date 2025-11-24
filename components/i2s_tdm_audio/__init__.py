@@ -239,7 +239,7 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
-    slot_mask_value = cg.new_Pvariable(config[CONF_ID]+"_slotmaskvalue")
+    slot_mask_value = cg.new_Pvariable("slotmaskvalue")
     for slot in config[CONF_SLOTS]:
         cg.add(slot_mask_value.push_back(I2S_TDM_SLOT_MASK[slot]))
     cg.add(var.set_tdm_slot_mask(slot_mask_value))    
