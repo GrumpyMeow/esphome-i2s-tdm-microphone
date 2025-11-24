@@ -125,6 +125,10 @@ bool I2STDMAudioMicrophone::start_driver_() {
       .clk_src = clk_src,
       .mclk_multiple = this->mclk_multiple_,
   };
+
+  ESP_LOGD(TAG, "TDM SLOT BIT WIDTH: 0x%X", static_cast<unsigned int>(this->slot_bit_width_));
+  ESP_LOGD(TAG, "TDM SLOT MODE: 0x%X", static_cast<unsigned int>(this->slot_mode_));
+  ESP_LOGD(TAG, "TDM SLOT MASK: 0x%X", static_cast<unsigned int>(this->tdm_slot_mask_));
   i2s_tdm_slot_config_t tdm_slot_cfg =
       I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->tdm_slot_mask_);
   tdm_slot_cfg.slot_bit_width = this->slot_bit_width_;
