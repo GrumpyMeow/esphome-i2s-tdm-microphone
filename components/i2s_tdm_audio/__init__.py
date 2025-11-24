@@ -224,7 +224,7 @@ def _final_validate(_):
 
 
 FINAL_VALIDATE_SCHEMA = _final_validate
-
+#void set_data_pins(std::array<uint8_t, 8> pins);
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
@@ -239,10 +239,7 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
-    slot_mask_value = cg.new_Pvariable("slotmaskvalue")
-    for slot in config[CONF_SLOTS]:
-        cg.add(slot_mask_value.push_back(I2S_TDM_SLOT_MASK[slot]))
-    cg.add(var.set_tdm_slot_mask(slot_mask_value))    
+    cg.add(var.set_tdm_slot_mask(config[CONF_SLOTS]))    
     
     #i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
     # Todo: Unable to get this to work
