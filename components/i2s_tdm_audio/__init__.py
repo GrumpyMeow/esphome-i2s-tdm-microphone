@@ -44,24 +44,23 @@ CONF_BOTH = "both"
 
 CONF_SLOTS = "slots"
 
-i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
 I2S_TDM_SLOT_MASK = {
-    "slot0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
-    "slot1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
-    "slot2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
-    "slot3": i2s_tdm_slot_mask_t.I2S_TDM_SLOT3,
-    "slot4": i2s_tdm_slot_mask_t.I2S_TDM_SLOT4,
-    "slot5": i2s_tdm_slot_mask_t.I2S_TDM_SLOT5,
-    "slot6": i2s_tdm_slot_mask_t.I2S_TDM_SLOT6,
-    "slot7": i2s_tdm_slot_mask_t.I2S_TDM_SLOT7,
-    "slot8": i2s_tdm_slot_mask_t.I2S_TDM_SLOT8,
-    "slot9": i2s_tdm_slot_mask_t.I2S_TDM_SLOT9,
-    "slot10": i2s_tdm_slot_mask_t.I2S_TDM_SLOT10,
-    "slot11": i2s_tdm_slot_mask_t.I2S_TDM_SLOT11,
-    "slot12": i2s_tdm_slot_mask_t.I2S_TDM_SLOT12,
-    "slot13": i2s_tdm_slot_mask_t.I2S_TDM_SLOT13,
-    "slot14": i2s_tdm_slot_mask_t.I2S_TDM_SLOT14,
-    "slot15": i2s_tdm_slot_mask_t.I2S_TDM_SLOT15,
+    "slot0": "I2S_TDM_SLOT0",
+    "slot1": "I2S_TDM_SLOT1",
+    "slot2": "I2S_TDM_SLOT2",
+    "slot3": "I2S_TDM_SLOT3",
+    "slot4": "I2S_TDM_SLOT4",
+    "slot5": "I2S_TDM_SLOT5",
+    "slot6": "I2S_TDM_SLOT6",
+    "slot7": "I2S_TDM_SLOT7",
+    "slot8": "I2S_TDM_SLOT8",
+    "slot9": "I2S_TDM_SLOT9",
+    "slot10": "I2S_TDM_SLOT10",
+    "slot11": "I2S_TDM_SLOT11",
+    "slot12": "I2S_TDM_SLOT12",
+    "slot13": "I2S_TDM_SLOT13",
+    "slot14": "I2S_TDM_SLOT14",
+    "slot15": "I2S_TDM_SLOT15",
 }
 
 i2s_tdm_audio_ns = cg.esphome_ns.namespace("i2s_tdm_audio")
@@ -204,9 +203,9 @@ async def register_i2s_tdm_audio_component(var, config):
     cg.add(var.set_slot_mode(I2S_SLOT_MODE[slot_mode]))
     cg.add(var.set_slot_bit_width(I2S_SLOT_BIT_WIDTH[config[CONF_BITS_PER_SAMPLE]]))
 
-    i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-    slot_mask_value = i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1
-    cg.add(var.set_tdm_slot_mask(slot_mask_value))
+    # i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
+    # slot_mask_value = i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1
+    # cg.add(var.set_tdm_slot_mask(slot_mask_value))
    
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
@@ -220,7 +219,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Required(CONF_SLOTS): cv.ensure_list(cv.one_of(*I2S_TDM_SLOT_MASK.keys())),
+            cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
         },
     ),
 )
