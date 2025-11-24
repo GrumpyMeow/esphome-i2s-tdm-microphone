@@ -44,6 +44,14 @@ CONF_BOTH = "both"
 
 CONF_SLOTS = "slots"
 
+i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
+slot_mask_schema = cv.multi_select({
+    "slot0": i2s_tdm_slot_mask_t.I2S_TDM_SLOT0,
+    "slot1": i2s_tdm_slot_mask_t.I2S_TDM_SLOT1,
+    "slot2": i2s_tdm_slot_mask_t.I2S_TDM_SLOT2,
+})
+
+
 I2S_TDM_SLOT_MASK = {
     "slot0": "I2S_TDM_SLOT0",
     "slot1": "I2S_TDM_SLOT1",
@@ -219,7 +227,8 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
+            # cv.Required(CONF_SLOTS): cv.enum(I2S_TDM_SLOT_MASK),
+            cv.Required(CONF_SLOTS): slot_mask_schema,
         },
     ),
 )
@@ -254,6 +263,10 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
+    slot_mask_value = 0
+    for slot in config[CONF_SLOT_MASK]:
+        slot_mask_value |= config[CONF_SLOTS][slot]
+    cg.add(var.set_tdm_slot_mask(slot_mask_value))
     
     #i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
     # Todo: Unable to get this to work
