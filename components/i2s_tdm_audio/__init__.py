@@ -254,5 +254,5 @@ async def to_code(config):
     i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
     slot_mask_value = i2s_tdm_slot_mask_t()
     for slot in config[CONF_SLOTS]:
-       slot_mask_value = slot_mask_value | I2S_TDM_SLOT_MASK[slot]
+       slot_mask_value = i2s_tdm_slot_mask_t(slot_mask_value.value) | I2S_TDM_SLOT_MASK[slot]
     cg.add(var.set_tdm_slot_mask(slot_mask_value))
