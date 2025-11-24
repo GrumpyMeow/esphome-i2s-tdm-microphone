@@ -205,9 +205,7 @@ async def register_i2s_tdm_audio_component(var, config):
     cg.add(var.set_slot_bit_width(I2S_SLOT_BIT_WIDTH[config[CONF_BITS_PER_SAMPLE]]))
 
     i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-    slot_mask_value = i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1 
-    slot_mask_value = slot_mask_value | i2s_tdm_slot_mask_t.I2S_TDM_SLOT2 
-    slot_mask_value = slot_mask_value | i2s_tdm_slot_mask_t.I2S_TDM_SLOT3
+    slot_mask_value = i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1
     cg.add(var.set_tdm_slot_mask(slot_mask_value))
    
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
