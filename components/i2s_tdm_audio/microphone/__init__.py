@@ -4,12 +4,10 @@ from esphome.components import audio, esp32, microphone
 from esphome.components.adc import ESP32_VARIANT_ADC1_PIN_TO_CHANNEL, validate_adc_pin
 import esphome.config_validation as cv
 from esphome.const import (
-    CONF_BITS_PER_SAMPLE,
     CONF_CHANNEL,
     CONF_ID,
     CONF_NUM_CHANNELS,
     CONF_NUMBER,
-    CONF_SAMPLE_RATE,
 )
 
 from .. import (
@@ -61,12 +59,8 @@ def _set_num_channels_from_config(config):
 
 def _set_stream_limits(config):
     audio.set_stream_limits(
-        min_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
-        max_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
         min_channels=config.get(CONF_NUM_CHANNELS),
         max_channels=config.get(CONF_NUM_CHANNELS),
-        min_sample_rate=config.get(CONF_SAMPLE_RATE),
-        max_sample_rate=config.get(CONF_SAMPLE_RATE),
     )(config)
 
     return config

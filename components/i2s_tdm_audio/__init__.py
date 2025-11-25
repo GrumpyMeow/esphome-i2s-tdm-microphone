@@ -179,6 +179,18 @@ async def register_i2s_tdm_audio_component(var, config):
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
     cg.add(var.set_mclk_multiple(I2S_MCLK_MULTIPLE[config[CONF_MCLK_MULTIPLE]]))
 
+
+def _set_stream_limits(config):
+    audio.set_stream_limits(
+        min_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
+        max_bits_per_sample=config.get(CONF_BITS_PER_SAMPLE),
+        min_sample_rate=config.get(CONF_SAMPLE_RATE),
+        max_sample_rate=config.get(CONF_SAMPLE_RATE),
+    )(config)
+
+    return config
+
+
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
@@ -204,6 +216,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_SLOTS): cv.ensure_list(cv.one_of(*I2S_TDM_SLOT_MASK)),
         },
     ),
+    _set_stream_limits,
 )
 
 
