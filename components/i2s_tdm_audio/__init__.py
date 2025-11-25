@@ -145,9 +145,9 @@ def validate_mclk_divisible_by_3(config):
 
 def i2s_tdm_audio_component_schema(
     class_: MockObjClass,
-    *,
+    *,    
+    default_channel: str,    
     default_sample_rate: int,
-    default_channel: str,
     default_bits_per_sample: str,
 ):
     return cv.Schema(
