@@ -58,31 +58,7 @@ void I2STDMAudioMicrophone::dump_config() {
                 static_cast<int8_t>(this->din_pin_), YESNO(this->correct_dc_offset_));
 }
 
-void I2STDMAudioMicrophone::configure_stream_settings_() {
-  uint8_t channel_count = 1;
-  uint8_t bits_per_sample = 16;
-  if (this->slot_bit_width_ != I2S_SLOT_BIT_WIDTH_AUTO) {
-    bits_per_sample = this->slot_bit_width_;
-  }
 
-  if (this->slot_mode_ == I2S_SLOT_MODE_STEREO) {
-    channel_count = 2;
-  }
-
-#ifdef USE_ESP32_VARIANT_ESP32
-  // ESP32 reads audio aligned to a multiple of 2 bytes. For example, if configured for 24 bits per sample, then it will
-  // produce 32 bits per sample, where the actual data is in the most significant bits. Other ESP32 variants produce 24
-  // bits per sample in this situation.
-  if (bits_per_sample < 16) {
-    bits_per_sample = 16;
-  } else if ((bits_per_sample > 16) && (bits_per_sample <= 32)) {
-    bits_per_sample = 32;
-  }
-#endif
-
-
-  this->audio_stream_info_ = audio::AudioStreamInfo(bits_per_sample, channel_count, this->sample_rate_);
-}
 
 void I2STDMAudioMicrophone::start() {
   if (this->is_failed())
@@ -157,9 +133,6 @@ bool I2STDMAudioMicrophone::start_driver_() {
     ESP_LOGE(TAG, "Enabling failed: %s", esp_err_to_name(err));
     return false;
   }
-
-
-  this->configure_stream_settings_();  // redetermine the settings in case some settings were changed after compilation
 
   return true;
 }
