@@ -98,8 +98,7 @@ FINAL_VALIDATE_SCHEMA = _final_validate
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    await cg.register_component(var, config)
-    await register_i2s_tdm_audio_component(var, config)
+    await cg.register_component(var, config)    
     await microphone.register_microphone(var, config)
 
     cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
