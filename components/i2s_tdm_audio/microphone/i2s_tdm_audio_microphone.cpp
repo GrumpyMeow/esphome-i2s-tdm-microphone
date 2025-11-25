@@ -256,33 +256,33 @@ void I2STDMAudioMicrophone::fix_dc_offset_(std::vector<uint8_t> &data) {
 
 size_t I2STDMAudioMicrophone::read_(uint8_t *buf, size_t len, TickType_t ticks_to_wait) {
   size_t bytes_read = 0;
-  // i2s_channel_read expects the timeout value in ms, not ticks
-  esp_err_t err = i2s_channel_read(this->rx_handle_, buf, len, &bytes_read, pdTICKS_TO_MS(ticks_to_wait));
+  // // i2s_channel_read expects the timeout value in ms, not ticks
+  // esp_err_t err = i2s_channel_read(this->rx_handle_, buf, len, &bytes_read, pdTICKS_TO_MS(ticks_to_wait));
 
-  if ((err != ESP_OK) && ((err != ESP_ERR_TIMEOUT) || (ticks_to_wait != 0))) {
-    // Ignore ESP_ERR_TIMEOUT if ticks_to_wait = 0, as it will read the data on the next call
-    if (!this->status_has_warning()) {
-      // Avoid spamming the logs with the error message if its repeated
-      ESP_LOGW(TAG, "Read error: %s", esp_err_to_name(err));
-    }
-    this->status_set_warning();
-    return 0;
-  }
-  if ((bytes_read == 0) && (ticks_to_wait > 0)) {
-    this->status_set_warning();
-    return 0;
-  }
-  this->status_clear_warning();
+  // if ((err != ESP_OK) && ((err != ESP_ERR_TIMEOUT) || (ticks_to_wait != 0))) {
+  //   // Ignore ESP_ERR_TIMEOUT if ticks_to_wait = 0, as it will read the data on the next call
+  //   if (!this->status_has_warning()) {
+  //     // Avoid spamming the logs with the error message if its repeated
+  //     ESP_LOGW(TAG, "Read error: %s", esp_err_to_name(err));
+  //   }
+  //   this->status_set_warning();
+  //   return 0;
+  // }
+  // if ((bytes_read == 0) && (ticks_to_wait > 0)) {
+  //   this->status_set_warning();
+  //   return 0;
+  // }
+  // this->status_clear_warning();
 
-  // For ESP32 8/16 bit standard mono mode samples need to be switched.
-  if (this->slot_mode_ == I2S_SLOT_MODE_MONO && this->slot_bit_width_ <= 16) {
-    size_t samples_read = bytes_read / sizeof(int16_t);
-    for (int i = 0; i < samples_read; i += 2) {
-      int16_t tmp = buf[i];
-      buf[i] = buf[i + 1];
-      buf[i + 1] = tmp;
-    }
-  }
+  // // For ESP32 8/16 bit standard mono mode samples need to be switched.
+  // if (this->slot_mode_ == I2S_SLOT_MODE_MONO && this->slot_bit_width_ <= 16) {
+  //   size_t samples_read = bytes_read / sizeof(int16_t);
+  //   for (int i = 0; i < samples_read; i += 2) {
+  //     int16_t tmp = buf[i];
+  //     buf[i] = buf[i + 1];
+  //     buf[i + 1] = tmp;
+  //   }
+  // }
 
   return bytes_read;
 }
