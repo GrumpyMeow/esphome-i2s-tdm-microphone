@@ -9,7 +9,10 @@ external_components:
 i2s_tdm_audio:
   i2s_lrclk_pin: GPIOXX
   i2s_bclk_pin: GPIOXX
+  slots: [0,1,2,3,4,5,6,7]
+
 
 microphone:
   - platform: i2s_tdm_audio
     i2s_din_pin: GPIOXX
+    slots: [0,1]
