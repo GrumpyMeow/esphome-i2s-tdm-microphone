@@ -332,23 +332,23 @@ void I2STDMAudioMicrophone::loop() {
         break;
       }
 
-      if (!this->start_driver_()) {
-        ESP_LOGE(TAG, "Driver failed to start; retrying in 1 second");
-        this->status_momentary_error("driver_fail", 1000);
-        this->stop_driver_();  // Stop/frees whatever possibly started
-        break;
-      }
+      // if (!this->start_driver_()) {
+      //   ESP_LOGE(TAG, "Driver failed to start; retrying in 1 second");
+      //   this->status_momentary_error("driver_fail", 1000);
+      //   this->stop_driver_();  // Stop/frees whatever possibly started
+      //   break;
+      // }
 
-      if (this->task_handle_ == nullptr) {
-        xTaskCreate(I2STDMAudioMicrophone::mic_task, "mic_task", TASK_STACK_SIZE, (void *) this, TASK_PRIORITY,
-                    &this->task_handle_);
+      // if (this->task_handle_ == nullptr) {
+      //   xTaskCreate(I2STDMAudioMicrophone::mic_task, "mic_task", TASK_STACK_SIZE, (void *) this, TASK_PRIORITY,
+      //               &this->task_handle_);
 
-        if (this->task_handle_ == nullptr) {
-          ESP_LOGE(TAG, "Task failed to start, retrying in 1 second");
-          this->status_momentary_error("task_fail", 1000);
-          this->stop_driver_();  // Stops the driver to return the lock; will be reloaded in next attempt
-        }
-      }
+      //   if (this->task_handle_ == nullptr) {
+      //     ESP_LOGE(TAG, "Task failed to start, retrying in 1 second");
+      //     this->status_momentary_error("task_fail", 1000);
+      //     this->stop_driver_();  // Stops the driver to return the lock; will be reloaded in next attempt
+      //   }
+      // }
 
       break;
     case microphone::STATE_RUNNING:
