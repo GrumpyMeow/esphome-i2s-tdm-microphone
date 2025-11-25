@@ -218,6 +218,7 @@ CONFIG_SCHEMA = cv.All(
         },
     ),
     _set_stream_limits,
+    validate_mclk_divisible_by_3,
 )
 
 
