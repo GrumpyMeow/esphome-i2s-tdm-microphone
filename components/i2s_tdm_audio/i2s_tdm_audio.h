@@ -14,23 +14,10 @@ class I2STDMAudioComponent;
 
 class I2STDMAudioBase : public Parented<I2STDMAudioComponent> {
  public:
-  void set_i2s_role(i2s_role_t role) { this->i2s_role_ = role; }
-  void set_slot_mode(i2s_slot_mode_t slot_mode) { this->slot_mode_ = slot_mode; }
-  void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
-  void set_tdm_slot_mask(std::array<uint8_t, 15> slots);  
-  void set_sample_rate(uint32_t sample_rate) { this->sample_rate_ = sample_rate; }
-  void set_use_apll(uint32_t use_apll) { this->use_apll_ = use_apll; }
-  void set_mclk_multiple(i2s_mclk_multiple_t mclk_multiple) { this->mclk_multiple_ = mclk_multiple; }
+  void set_tdm_slot_mask(std::array<uint8_t, 15> slots);
 
  protected:
-  i2s_role_t i2s_role_{};
-  i2s_slot_mode_t slot_mode_;
   i2s_tdm_slot_mask_t tdm_slot_mask_;
-  i2s_slot_bit_width_t slot_bit_width_;
-
-  uint32_t sample_rate_;
-  bool use_apll_;
-  i2s_mclk_multiple_t mclk_multiple_;
 };
 
 class I2STDMAudioIn : public I2STDMAudioBase {};
@@ -40,6 +27,7 @@ class I2STDMAudioOut : public I2STDMAudioBase {};
 class I2STDMAudioComponent : public Component {
  public:
   void setup() override;
+  
 
   i2s_tdm_gpio_config_t get_pin_config() const {
     return {.mclk = (gpio_num_t) this->mclk_pin_,
@@ -53,10 +41,21 @@ class I2STDMAudioComponent : public Component {
                 .ws_inv = false,
             }};
   }
+ 
 
   void set_mclk_pin(int pin) { this->mclk_pin_ = pin; }
   void set_bclk_pin(int pin) { this->bclk_pin_ = pin; }
   void set_lrclk_pin(int pin) { this->lrclk_pin_ = pin; }
+
+  void set_i2s_role(i2s_role_t role) { this->i2s_role_ = role; }
+  void set_sample_rate(uint32_t sample_rate) { this->sample_rate_ = sample_rate; }
+  void set_slot_mode(i2s_slot_mode_t slot_mode) { this->slot_mode_ = slot_mode; }
+  void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
+  void set_tdm_slot_mask(std::array<uint8_t, 15> slots);
+  void set_use_apll(uint32_t use_apll) { this->use_apll_ = use_apll; }
+  void set_mclk_multiple(i2s_mclk_multiple_t mclk_multiple) { this->mclk_multiple_ = mclk_multiple; }
+
+
 
   void lock() { this->lock_.lock(); }
   bool try_lock() { return this->lock_.try_lock(); }
@@ -71,9 +70,18 @@ class I2STDMAudioComponent : public Component {
   I2STDMAudioOut *audio_out_{nullptr};
   int mclk_pin_{I2S_GPIO_UNUSED};
   int bclk_pin_{I2S_GPIO_UNUSED};
+  
+  i2s_slot_mode_t slot_mode_;
+  i2s_tdm_slot_mask_t tdm_slot_mask_;
+  i2s_slot_bit_width_t slot_bit_width_;
 
   int lrclk_pin_;
+  i2s_role_t i2s_role_{};
   i2s_port_t port_{};
+  uint32_t sample_rate_;
+  bool use_apll_;
+  i2s_mclk_multiple_t mclk_multiple_;
+
 };
 
 }  // namespace i2s_tdm_audio
