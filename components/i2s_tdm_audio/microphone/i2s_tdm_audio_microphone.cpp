@@ -47,7 +47,7 @@ void I2STDMAudioMicrophone::setup() {
     return;
   }
 
-  this->configure_stream_settings_();
+  //this->configure_stream_settings_();
 }
 
 void I2STDMAudioMicrophone::dump_config() {
