@@ -251,6 +251,6 @@ async def to_code(config):
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
 
-    await register_i2s_tdm_audio_component(var, config)
+    # await register_i2s_tdm_audio_component(var, config)
 
     #validate_mclk_divisible_by_3,
