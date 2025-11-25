@@ -19,7 +19,6 @@ from .. import (
     i2s_tdm_audio_component_schema,
     i2s_tdm_audio_ns,
     register_i2s_tdm_audio_component,
-    validate_mclk_divisible_by_3,
 )
 
 DEPENDENCIES = ["i2s_tdm_audio"]
