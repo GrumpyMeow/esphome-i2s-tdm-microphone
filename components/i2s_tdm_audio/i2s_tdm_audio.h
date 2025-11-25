@@ -67,16 +67,7 @@ class I2STDMAudioComponent : public Component {
   void set_mclk_pin(int pin) { this->mclk_pin_ = pin; }
   void set_bclk_pin(int pin) { this->bclk_pin_ = pin; }
   void set_lrclk_pin(int pin) { this->lrclk_pin_ = pin; }
-  void set_tdm_slot_mask(std::array<uint8_t, 8> slots) { 
-   i2s_tdm_slot_mask_t tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(0);
-   for (auto slot : slots) {
-      tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(
-          static_cast<uint32_t>(tdm_slot_mask) | (1 << slot)
-      );
-   }
-   ESP_LOGD(TAG, "TDM2 SLOT MASK: 0x%X", static_cast<unsigned int>(tdm_slot_mask));
-   this->tdm_slot_mask_ = tdm_slot_mask;
-  }
+  void set_tdm_slot_mask(std::array<uint8_t, 15> slots);  
 
   void lock() { this->lock_.lock(); }
   bool try_lock() { return this->lock_.try_lock(); }
