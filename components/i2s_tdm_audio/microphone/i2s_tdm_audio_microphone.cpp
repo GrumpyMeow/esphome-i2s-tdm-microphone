@@ -72,67 +72,67 @@ bool I2STDMAudioMicrophone::start_driver_() {
     return false;  // Waiting for another i2s to return lock
   }
   this->locked_driver_ = true;
-  esp_err_t err;
-  i2s_chan_config_t chan_cfg = {
-      .id = this->parent_->get_port(),
-      .role = this->i2s_role_,
-      .dma_desc_num = 4,
-      .dma_frame_num = 256,
-      .auto_clear = false,
-  };
-  /* Allocate a new RX channel and get the handle of this channel */
-  ESP_LOGD(TAG, "Allocating a new RX channel");
-  err = i2s_new_channel(&chan_cfg, NULL, &this->rx_handle_);
-  if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Error creating channel: %s", esp_err_to_name(err));
-    return false;
-  }
+//   esp_err_t err;
+//   i2s_chan_config_t chan_cfg = {
+//       .id = this->parent_->get_port(),
+//       .role = this->i2s_role_,
+//       .dma_desc_num = 4,
+//       .dma_frame_num = 256,
+//       .auto_clear = false,
+//   };
+//   /* Allocate a new RX channel and get the handle of this channel */
+//   ESP_LOGD(TAG, "Allocating a new RX channel");
+//   err = i2s_new_channel(&chan_cfg, NULL, &this->rx_handle_);
+//   if (err != ESP_OK) {
+//     ESP_LOGE(TAG, "Error creating channel: %s", esp_err_to_name(err));
+//     return false;
+//   }
 
-  i2s_clock_src_t clk_src = I2S_CLK_SRC_DEFAULT;
-#ifdef I2S_CLK_SRC_APLL
-  if (this->use_apll_) {
-    clk_src = I2S_CLK_SRC_APLL;
-  }
-#endif
-  i2s_tdm_gpio_config_t pin_config = this->parent_->get_pin_config();
+//   i2s_clock_src_t clk_src = I2S_CLK_SRC_DEFAULT;
+// #ifdef I2S_CLK_SRC_APLL
+//   if (this->use_apll_) {
+//     clk_src = I2S_CLK_SRC_APLL;
+//   }
+// #endif
+//   i2s_tdm_gpio_config_t pin_config = this->parent_->get_pin_config();
 
-  i2s_tdm_clk_config_t clk_cfg = {
-      .sample_rate_hz = this->sample_rate_,
-      .clk_src = clk_src,
-      .mclk_multiple = this->mclk_multiple_,
-  };
+//   i2s_tdm_clk_config_t clk_cfg = {
+//       .sample_rate_hz = this->sample_rate_,
+//       .clk_src = clk_src,
+//       .mclk_multiple = this->mclk_multiple_,
+//   };
 
-  ESP_LOGD(TAG, "TDM SLOT BIT WIDTH: 0x%X", static_cast<unsigned int>(this->slot_bit_width_));
-  ESP_LOGD(TAG, "TDM SLOT MODE: 0x%X", static_cast<unsigned int>(this->slot_mode_));
-  ESP_LOGD(TAG, "TDM SLOT MASK: 0x%X", static_cast<unsigned int>(this->tdm_slot_mask_));
-  i2s_tdm_slot_config_t tdm_slot_cfg =
-      I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->tdm_slot_mask_);
-  tdm_slot_cfg.slot_bit_width = this->slot_bit_width_;
-  tdm_slot_cfg.slot_mask = this->tdm_slot_mask_;
+//   ESP_LOGD(TAG, "TDM SLOT BIT WIDTH: 0x%X", static_cast<unsigned int>(this->slot_bit_width_));
+//   ESP_LOGD(TAG, "TDM SLOT MODE: 0x%X", static_cast<unsigned int>(this->slot_mode_));
+//   ESP_LOGD(TAG, "TDM SLOT MASK: 0x%X", static_cast<unsigned int>(this->tdm_slot_mask_));
+//   i2s_tdm_slot_config_t tdm_slot_cfg =
+//       I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG((i2s_data_bit_width_t) this->slot_bit_width_, this->slot_mode_, this->tdm_slot_mask_);
+//   tdm_slot_cfg.slot_bit_width = this->slot_bit_width_;
+//   tdm_slot_cfg.slot_mask = this->tdm_slot_mask_;
 
-  pin_config.din = this->din_pin_;
+//   pin_config.din = this->din_pin_;
 
-  i2s_tdm_config_t tdm_cfg = {
-      .clk_cfg = clk_cfg,
-      .slot_cfg = tdm_slot_cfg,
-      .gpio_cfg = pin_config,
-  };
-  /* Initialize the channel */
-  ESP_LOGD(TAG, "Initialize the RX channel");
-  err = i2s_channel_init_tdm_mode(this->rx_handle_, &tdm_cfg);
+//   i2s_tdm_config_t tdm_cfg = {
+//       .clk_cfg = clk_cfg,
+//       .slot_cfg = tdm_slot_cfg,
+//       .gpio_cfg = pin_config,
+//   };
+//   /* Initialize the channel */
+//   ESP_LOGD(TAG, "Initialize the RX channel");
+//   err = i2s_channel_init_tdm_mode(this->rx_handle_, &tdm_cfg);
   
-  if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Error initializing channel: %s", esp_err_to_name(err));
-    return false;
-  }
+//   if (err != ESP_OK) {
+//     ESP_LOGE(TAG, "Error initializing channel: %s", esp_err_to_name(err));
+//     return false;
+//   }
 
-  /* Before reading data, start the RX channel first */
-  ESP_LOGD(TAG, "Start the RX channel");
-  i2s_channel_enable(this->rx_handle_);
-  if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Enabling failed: %s", esp_err_to_name(err));
-    return false;
-  }
+//   /* Before reading data, start the RX channel first */
+//   ESP_LOGD(TAG, "Start the RX channel");
+//   i2s_channel_enable(this->rx_handle_);
+//   if (err != ESP_OK) {
+//     ESP_LOGE(TAG, "Enabling failed: %s", esp_err_to_name(err));
+//     return false;
+//   }
 
   return true;
 }
