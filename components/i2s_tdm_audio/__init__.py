@@ -143,12 +143,11 @@ def validate_mclk_divisible_by_3(config):
     return config
 
 
+#microphone
 def i2s_tdm_audio_component_schema(
     class_: MockObjClass,
     *,    
     default_channel: str,    
-    default_sample_rate: int,
-    default_bits_per_sample: str,
 ):
     return cv.Schema(
         {
@@ -180,7 +179,6 @@ async def register_i2s_tdm_audio_component(var, config):
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
     cg.add(var.set_mclk_multiple(I2S_MCLK_MULTIPLE[config[CONF_MCLK_MULTIPLE]]))
 
-
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
@@ -188,10 +186,10 @@ CONFIG_SCHEMA = cv.All(
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Optional(CONF_SAMPLE_RATE, default=default_sample_rate): cv.int_range(
+            cv.Optional(CONF_SAMPLE_RATE, default=16000): cv.int_range(
                 min=1
             ),
-            cv.Optional(CONF_BITS_PER_SAMPLE, default=default_bits_per_sample): cv.All(
+            cv.Optional(CONF_BITS_PER_SAMPLE, default="32bit"): cv.All(
                 _validate_bits, cv.one_of(*I2S_BITS_PER_SAMPLE)
             ),
             cv.Optional(CONF_I2S_MODE, default=CONF_PRIMARY): cv.one_of(

@@ -74,10 +74,8 @@ def _set_stream_limits(config):
 
 BASE_SCHEMA = microphone.MICROPHONE_SCHEMA.extend(
     i2s_tdm_audio_component_schema(
-        I2STDMAudioMicrophone,
-        default_sample_rate=16000,
-        default_channel=CONF_RIGHT,
-        default_bits_per_sample="32bit",
+        I2STDMAudioMicrophone,        
+        default_channel=CONF_RIGHT,        
     ).extend(
         {
             cv.Optional(CONF_CORRECT_DC_OFFSET, default=False): cv.boolean,
