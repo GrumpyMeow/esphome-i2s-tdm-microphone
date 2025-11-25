@@ -11,7 +11,6 @@ from esphome.const import (
 )
 
 from .. import (
-    CONF_I2S_DIN_PIN,
     CONF_LEFT,
     CONF_MONO,
     CONF_RIGHT,
@@ -23,17 +22,11 @@ from .. import (
 
 DEPENDENCIES = ["i2s_tdm_audio"]
 
-CONF_ADC_PIN = "adc_pin"
-CONF_CORRECT_DC_OFFSET = "correct_dc_offset"
-CONF_PDM = "pdm"
+CONF_I2S_DIN_PIN = "i2s_din_pin"
 
 I2STDMAudioMicrophone = i2s_tdm_audio_ns.class_(
     "I2STDMAudioMicrophone", I2STDMAudioIn, microphone.Microphone, cg.Component
 )
-
-INTERNAL_ADC_VARIANTS = [esp32.const.VARIANT_ESP32]
-PDM_VARIANTS = [esp32.const.VARIANT_ESP32, esp32.const.VARIANT_ESP32S3]
-
 
 def _validate_esp32_variant(config):
     variant = esp32.get_esp32_variant()
@@ -71,7 +64,7 @@ BASE_SCHEMA = microphone.MICROPHONE_SCHEMA.extend(
         default_channel=CONF_RIGHT,        
     ).extend(
         {
-            cv.Optional(CONF_CORRECT_DC_OFFSET, default=False): cv.boolean,
+            
         }
     )
 ).extend(cv.COMPONENT_SCHEMA)
@@ -80,7 +73,6 @@ CONFIG_SCHEMA = cv.All(
     BASE_SCHEMA.extend(
         {
             cv.Required(CONF_I2S_DIN_PIN): pins.internal_gpio_input_pin_number,
-            cv.Optional(CONF_PDM, default=False): cv.boolean,
         }
     ),
     _validate_esp32_variant,
@@ -102,5 +94,3 @@ async def to_code(config):
     await microphone.register_microphone(var, config)
 
     cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
-
-    cg.add(var.set_correct_dc_offset(config[CONF_CORRECT_DC_OFFSET]))

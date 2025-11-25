@@ -21,8 +21,6 @@ import esphome.final_validate as fv
 DEPENDENCIES = ["esp32"]
 MULTI_CONF = True
 
-CONF_I2S_DOUT_PIN = "i2s_dout_pin"
-CONF_I2S_DIN_PIN = "i2s_din_pin"
 CONF_I2S_MCLK_PIN = "i2s_mclk_pin"
 CONF_I2S_BCLK_PIN = "i2s_bclk_pin"
 CONF_I2S_LRCLK_PIN = "i2s_lrclk_pin"
@@ -34,7 +32,6 @@ CONF_I2S_MODE = "i2s_mode"
 CONF_PRIMARY = "primary"
 CONF_SECONDARY = "secondary"
 
-CONF_USE_APLL = "use_apll"
 CONF_BITS_PER_CHANNEL = "bits_per_channel"
 CONF_MCLK_MULTIPLE = "mclk_multiple"
 CONF_MONO = "mono"
@@ -177,7 +174,6 @@ async def register_i2s_tdm_audio_component(var, config):
     cg.add(var.set_tdm_slot_mask(config[CONF_SLOTS]))
    
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
-    cg.add(var.set_use_apll(config[CONF_USE_APLL]))
     cg.add(var.set_mclk_multiple(I2S_MCLK_MULTIPLE[config[CONF_MCLK_MULTIPLE]]))
 
 
@@ -192,6 +188,7 @@ def _set_stream_limits(config):
     return config
 
 
+# i2s_tdm_audio
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
@@ -208,7 +205,6 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_I2S_MODE, default=CONF_PRIMARY): cv.one_of(
                 *I2S_MODE_OPTIONS, lower=True
             ),
-            cv.Optional(CONF_USE_APLL, default=False): cv.boolean,
             cv.Optional(CONF_BITS_PER_CHANNEL, default="default"): cv.All(
                 cv.Any(cv.float_with_unit("bits", "bit"), "default"),
                 cv.one_of(*I2S_BITS_PER_CHANNEL),
@@ -254,3 +250,7 @@ async def to_code(config):
     # await register_i2s_tdm_audio_component(var, config)
 
     #validate_mclk_divisible_by_3,
+
+
+
+# https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/i2s.html#_CPPv419i2s_tdm_slot_mask_t

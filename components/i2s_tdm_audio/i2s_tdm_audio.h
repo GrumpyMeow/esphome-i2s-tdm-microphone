@@ -52,7 +52,6 @@ class I2STDMAudioComponent : public Component {
   void set_slot_mode(i2s_slot_mode_t slot_mode) { this->slot_mode_ = slot_mode; }
   void set_slot_bit_width(i2s_slot_bit_width_t slot_bit_width) { this->slot_bit_width_ = slot_bit_width; }
   void set_tdm_slot_mask(std::array<uint8_t, 15> slots);
-  void set_use_apll(uint32_t use_apll) { this->use_apll_ = use_apll; }
   void set_mclk_multiple(i2s_mclk_multiple_t mclk_multiple) { this->mclk_multiple_ = mclk_multiple; }
 
 
@@ -79,7 +78,6 @@ class I2STDMAudioComponent : public Component {
   i2s_role_t i2s_role_{};
   i2s_port_t port_{};
   uint32_t sample_rate_;
-  bool use_apll_;
   i2s_mclk_multiple_t mclk_multiple_;
 
 };
