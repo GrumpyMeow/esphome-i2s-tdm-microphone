@@ -1,5 +1,6 @@
 from esphome import pins
 import esphome.codegen as cg
+from esphome.components import audio
 from esphome.components.esp32 import add_idf_sdkconfig_option, get_esp32_variant
 from esphome.components.esp32.const import (
     VARIANT_ESP32,
