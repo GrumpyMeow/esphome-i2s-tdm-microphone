@@ -172,6 +172,7 @@ def i2s_tdm_audio_component_schema(
                 cv.one_of(*I2S_BITS_PER_CHANNEL),
             ),
             cv.Optional(CONF_MCLK_MULTIPLE, default=256): cv.one_of(*I2S_MCLK_MULTIPLE),
+            cv.Required(CONF_SLOTS): cv.ensure_list(cv.one_of(*I2S_TDM_SLOT_MASK)),
         }
     )
 
@@ -191,6 +192,8 @@ async def register_i2s_tdm_audio_component(var, config):
     # i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
     # slot_mask_value = i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1
     # cg.add(var.set_tdm_slot_mask(slot_mask_value))
+
+    cg.add(var.set_tdm_slot_mask(config[CONF_SLOTS]))
    
     cg.add(var.set_sample_rate(config[CONF_SAMPLE_RATE]))
     cg.add(var.set_use_apll(config[CONF_USE_APLL]))
@@ -203,8 +206,7 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(I2STDMAudioComponent),
             cv.Required(CONF_I2S_LRCLK_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_I2S_BCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,
-            cv.Required(CONF_SLOTS): cv.ensure_list(cv.one_of(*I2S_TDM_SLOT_MASK)),
+            cv.Optional(CONF_I2S_MCLK_PIN): pins.internal_gpio_output_pin_number,            
         },
     ),
 )
@@ -238,13 +240,3 @@ async def to_code(config):
         cg.add(var.set_bclk_pin(config[CONF_I2S_BCLK_PIN]))
     if CONF_I2S_MCLK_PIN in config:
         cg.add(var.set_mclk_pin(config[CONF_I2S_MCLK_PIN]))
-
-    cg.add(var.set_tdm_slot_mask(config[CONF_SLOTS]))    
-    
-    #i2s_tdm_slot_mask_t = cg.global_ns.enum("i2s_tdm_slot_mask_t")
-    # Todo: Unable to get this to work
-    #slot_mask_value = i2s_tdm_slot_mask_t()
-    #for slot in config[CONF_SLOTS]:
-    #   slot_mask_value = i2s_tdm_slot_mask_t(slot_mask_value | I2S_TDM_SLOT_MASK[slot])
-    #slot_mask_value = (((i2s_tdm_slot_mask_t.I2S_TDM_SLOT0 | i2s_tdm_slot_mask_t.I2S_TDM_SLOT1) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT2) | i2s_tdm_slot_mask_t.I2S_TDM_SLOT3)
-    #cg.add(var.set_tdm_slot_mask(slot_mask_value))

@@ -21,7 +21,7 @@ void I2STDMAudioComponent::setup() {
   next_port_num = (i2s_port_t) (next_port_num + 1);
 }
 
-void I2STDMAudioComponent::set_tdm_slot_mask(std::array<uint8_t, 15> slots) { 
+void I2STDMAudioBase::set_tdm_slot_mask(std::array<uint8_t, 15> slots) { 
    i2s_tdm_slot_mask_t tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(0);
    for (auto slot : slots) {
       tdm_slot_mask = static_cast<i2s_tdm_slot_mask_t>(
